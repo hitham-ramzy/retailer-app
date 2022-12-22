@@ -4,6 +4,8 @@ import com.abnamro.retailer.entity.Product;
 import com.abnamro.retailer.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -16,5 +18,9 @@ public class ProductService {
     public Product save(Product product) {
         // TODO :: validate
         return productRepository.save(product);
+    }
+
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 }
