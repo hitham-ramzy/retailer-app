@@ -14,8 +14,8 @@
 
 <!--    <changeSet author="hitham-ramzy" id="202212220504-2">-->
 <!--        <loadData encoding="UTF-8"-->
-<!--                  file="liquibase/recipeTypes.csv"-->
+<!--                  file="liquibase/orders.csv"-->
 <!--                  separator=";"-->
-<!--                  tableName="recipe_type"/>-->
+<!--                  tableName="order"/>-->
 <!--    </changeSet>-->
 </databaseChangeLog>
