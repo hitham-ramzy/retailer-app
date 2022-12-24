@@ -48,5 +48,4 @@ public class ProductResource {
         return ResponseEntity.ok(savedProduct);
     }
 
-
 }
