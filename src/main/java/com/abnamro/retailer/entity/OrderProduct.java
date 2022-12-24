@@ -14,8 +14,8 @@ import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 public class OrderProduct {

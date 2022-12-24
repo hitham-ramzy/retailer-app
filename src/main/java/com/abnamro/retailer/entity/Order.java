@@ -1,6 +1,9 @@
 package com.abnamro.retailer.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,6 +16,9 @@ import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "app_order") // because order is a reserved word in sql

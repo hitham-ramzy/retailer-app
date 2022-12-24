@@ -1,7 +1,10 @@
 package com.abnamro.retailer.entity.dto;
 
 import com.abnamro.retailer.util.ErrorConstants;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -10,6 +13,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class OrderDTO {
 
