@@ -12,6 +12,7 @@ import com.abnamro.retailer.util.ErrorConstants;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -55,13 +56,23 @@ public class OrderService {
         }
 
         Order order = OrderMapper.INSTANCE.mapDtoToOrder(orderDTO);
-        List<OrderProduct> orderProducts = products.stream().map(product -> OrderProduct.builder()
-                        .order(order)
-                        .product(product)
-                        .quantity(productQuantityMap.get(product.getId()))
-                        .build())
+        List<OrderProduct> orderProducts = products.stream().map(product -> {
+                    Integer quantity = productQuantityMap.get(product.getId());
+                    BigDecimal amount = product.getPrice().multiply(BigDecimal.valueOf(quantity));
+                    return OrderProduct.builder()
+                            .order(order)
+                            .product(product)
+                            .quantity(quantity)
+                            .quantityPrice(amount)
+                            .build();
+                })
                 .collect(Collectors.toList());
         order.setOrderProducts(orderProducts);
+
+        BigDecimal totalAmount = orderProducts.stream()
+                .map(OrderProduct::getQuantityPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        order.setTotalPrice(totalAmount);
         return order;
     }
 }

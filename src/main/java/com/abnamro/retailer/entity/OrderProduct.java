@@ -1,16 +1,21 @@
 package com.abnamro.retailer.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.math.BigDecimal;
 
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 public class OrderProduct {
@@ -28,13 +33,5 @@ public class OrderProduct {
 
     private Integer quantity;
 
-    public OrderProduct() {
-    }
-
-    public OrderProduct(Long id, Order order, Product product, Integer quantity) {
-        this.id = id;
-        this.order = order;
-        this.product = product;
-        this.quantity = quantity;
-    }
+    private BigDecimal quantityPrice;
 }

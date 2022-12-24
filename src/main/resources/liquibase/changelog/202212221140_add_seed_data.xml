@@ -12,10 +12,17 @@
                   tableName="product"/>
     </changeSet>
 
-<!--    <changeSet author="hitham-ramzy" id="202212220504-2">-->
-<!--        <loadData encoding="UTF-8"-->
-<!--                  file="liquibase/orders.csv"-->
-<!--                  separator=";"-->
-<!--                  tableName="order"/>-->
-<!--    </changeSet>-->
+    <changeSet author="hitham-ramzy" id="202212220504-2">
+        <loadData encoding="UTF-8"
+                  file="liquibase/orders.csv"
+                  separator=";"
+                  tableName="app_order"/>
+    </changeSet>
+
+    <changeSet author="hitham-ramzy" id="202212220504-3">
+        <loadData encoding="UTF-8"
+                  file="liquibase/orderProducts.csv"
+                  separator=";"
+                  tableName="order_product"/>
+    </changeSet>
 </databaseChangeLog>
