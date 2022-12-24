@@ -1,6 +1,7 @@
 package com.abnamro.retailer.resource;
 
 import com.abnamro.retailer.entity.Product;
+import com.abnamro.retailer.entity.criteria.ProductCriteria;
 import com.abnamro.retailer.entity.dto.ProductDTO;
 import com.abnamro.retailer.mapper.ProductMapper;
 import com.abnamro.retailer.service.ProductService;
@@ -26,8 +27,8 @@ public class ProductResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAll() {
-        List<Product> products = productService.findAll();
+    public ResponseEntity<List<Product>> getAll(ProductCriteria productCriteria) {
+        List<Product> products = productService.findAll(productCriteria);
         return ResponseEntity.ok(products);
     }
 
