@@ -35,7 +35,7 @@ public class Order {
 
     private String customerPhone;
 
-    private ZonedDateTime time = ZonedDateTime.now();
+    private ZonedDateTime time;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts;

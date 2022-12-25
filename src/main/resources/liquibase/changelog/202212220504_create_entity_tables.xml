@@ -17,6 +17,9 @@
             <column name="price" type="double">
                 <constraints nullable="false"/>
             </column>
+            <column name="available_quantity" type="double" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

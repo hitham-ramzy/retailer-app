@@ -20,4 +20,8 @@ public class ProductDTO {
     @NotNull(message = ErrorConstants.ERROR_PRICE_NOT_NULL)
     @Min(value = 1, message = ErrorConstants.ERROR_PRICE_POSITIVE)
     private BigDecimal price;
+
+    @NotNull(message = ErrorConstants.ERROR_AVAILABLE_QUANTITY_NOT_NULL)
+    @Min(value = 1, message = ErrorConstants.ERROR_AVAILABLE_QUANTITY_POSITIVE)
+    private Integer availableQuantity;
 }

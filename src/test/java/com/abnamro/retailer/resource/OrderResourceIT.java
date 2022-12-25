@@ -1,11 +1,14 @@
 package com.abnamro.retailer.resource;
 
 import com.abnamro.retailer.entity.Order;
+import com.abnamro.retailer.entity.Product;
 import com.abnamro.retailer.entity.dto.OrderDTO;
 import com.abnamro.retailer.repository.OrderRepository;
+import com.abnamro.retailer.repository.ProductRepository;
 import static com.abnamro.retailer.util.TestUtils.asJsonString;
 import static com.abnamro.retailer.util.TestUtils.buildRandomOrderDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
@@ -33,20 +36,31 @@ class OrderResourceIT {
 
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
 
     @Test
     public void createValidOrder_SavedSuccessfully() throws Exception {
         OrderDTO orderDTO = buildRandomOrderDTO();
+        Integer quantityAvailabilityBeforeRequest = productRepository.findById(orderDTO.getProducts().get(0).getProductId())
+                .map(Product::getAvailableQuantity).orElse(0);
+
+        Integer requestedQuantity = orderDTO.getProducts().get(0).getQuantity();
+
         MvcResult mvcResult = mockMvc.perform(post("/api/orders")
                         .content(asJsonString(orderDTO))
                         .contentType("application/json"))
                 .andExpect(status().isOk()).andReturn();
         String json = mvcResult.getResponse().getContentAsString();
-        Order order = new ObjectMapper().readValue(json, Order.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        Order order = objectMapper.readValue(json, Order.class);
         assertOrder(order, orderDTO);
         Order orderFromDB = orderRepository.findById(order.getId()).orElse(null);
         assertOrder(orderFromDB, orderFromDB);
+        assertEquals(orderFromDB.getOrderProducts().get(0).getProduct().getAvailableQuantity(),
+                quantityAvailabilityBeforeRequest - requestedQuantity);
     }
 
     @Test
@@ -72,6 +86,17 @@ class OrderResourceIT {
     @Test
     public void createInvalidOrderByEmptyProducts_Error400() throws Exception {
         OrderDTO orderDTO = buildRandomOrderDTO();
+        orderDTO.setProducts(List.of());
+        mockMvc.perform(post("/api/orders")
+                        .content(asJsonString(orderDTO))
+                        .contentType("application/json"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createInvalidOrderByTooManyProductQuantity_Error400() throws Exception {
+        OrderDTO orderDTO = buildRandomOrderDTO();
+        orderDTO.getProducts().get(0).setQuantity(10000);
         orderDTO.setProducts(List.of());
         mockMvc.perform(post("/api/orders")
                         .content(asJsonString(orderDTO))
