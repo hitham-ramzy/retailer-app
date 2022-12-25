@@ -32,7 +32,7 @@ public class ProductResource {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Product> getOneById(@PathVariable Long id) {
         Product product = productService.findById(id);
         if (product == null) {

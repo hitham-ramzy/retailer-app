@@ -14,7 +14,9 @@
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="description" type="varchar(5000)"/>
-            <column name="price" type="double"/>
+            <column name="price" type="double">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -23,10 +25,19 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="customer_name" type="varchar(200)"/>
+            <column name="customer_name" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
             <column name="customer_email" type="varchar(200)"/>
-            <column name="customer_phone" type="varchar(20)"/>
-            <column name="total_price" type="double"/>
+            <column name="customer_phone" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_price" type="double">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -35,10 +46,18 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="order_id" type="BIGINT"/>
-            <column name="product_id" type="BIGINT"/>
-            <column name="quantity" type="int"/>
-            <column name="quantity_price" type="double"/>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity_price" type="double">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

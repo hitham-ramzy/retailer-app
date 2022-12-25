@@ -26,6 +26,7 @@ public class ErrorConstants {
     public static final String ERROR_NAME_ALREADY_USED = "Name field already used";
     public static final String ERROR_PRODUCT_IDS_NOT_CORRECT = "Product IDs are not correct";
     public static final String ERROR_PRODUCT_SIZE_NOT_EMPTY = "Products must NOT be empty";
+    public static final String ERROR_DATE_FROM_AFTER_TO = "FromDate must be before ToDate";
     public static final String GENERAL_ERROR = "GENERAL ERROR";
 
 }
