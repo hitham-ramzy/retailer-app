@@ -6,9 +6,13 @@ import com.abnamro.retailer.entity.dto.OrderDTO;
 import com.abnamro.retailer.entity.dto.OrderProductDTO;
 import com.abnamro.retailer.exception.InvalidInputException;
 import com.abnamro.retailer.repository.OrderRepository;
+import com.abnamro.retailer.repository.ProductRepository;
 import com.abnamro.retailer.util.ApplicationUtils;
-import com.abnamro.retailer.util.ErrorConstants;
+import static com.abnamro.retailer.util.ErrorConstants.ERROR_PRODUCT_IDS_NOT_CORRECT;
+import static com.abnamro.retailer.util.ErrorConstants.ERROR_PRODUCT_QUANTITY_NOT_AVAILABLE;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,11 +24,11 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final ProductService productService;
+    private final ProductRepository productRepository;
 
-    public OrderService(OrderRepository orderRepository, ProductService productService) {
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
-        this.productService = productService;
+        this.productRepository = productRepository;
     }
 
     public List<Order> findAll() {
@@ -35,25 +39,44 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public Order save(@Valid OrderDTO orderDTO) {
-        Order order = mapOrderDtoToOrder(orderDTO);
-        // TODO :: call twilio to send SMS or Email
-        return orderRepository.save(order);
-    }
 
-    private Order mapOrderDtoToOrder(OrderDTO orderDTO) {
         Set<Long> productIds = orderDTO.getProducts().stream()
                 .map(OrderProductDTO::getProductId)
                 .collect(Collectors.toSet());
-        List<Product> products = productService.findAllById(productIds);
-        if (products.size() != productIds.size()) {
-            throw new InvalidInputException(ErrorConstants.ERROR_PRODUCT_IDS_NOT_CORRECT);
-        }
+        List<Product> products = productRepository.findAllById(productIds);
 
-        Map<Long, Integer> productQuantityMap = orderDTO.getProducts().stream()
+        Map<Long, Integer> productRequestedQuantityMap = orderDTO.getProducts().stream()
                 .collect(Collectors.toMap(OrderProductDTO::getProductId, OrderProductDTO::getQuantity));
 
-        return ApplicationUtils.buildOrder(orderDTO, products, productQuantityMap);
+        validateOrder(products, productIds, productRequestedQuantityMap);
+
+        Order order = ApplicationUtils.buildOrder(orderDTO, products, productRequestedQuantityMap);
+        Order savedOrder = orderRepository.save(order);
+
+        products.forEach(product -> {
+            product.setAvailableQuantity(product.getAvailableQuantity() - productRequestedQuantityMap.get(product.getId()));
+            productRepository.save(product);
+        });
+
+        // TODO :: call twilio to send SMS or Email
+        return savedOrder;
+    }
+
+    private void validateOrder(List<Product> products, Set<Long> productIds, Map<Long, Integer> productRequestedQuantityMap) {
+        if (products.size() != productIds.size()) {
+            throw new InvalidInputException(ERROR_PRODUCT_IDS_NOT_CORRECT);
+        }
+
+        String notAvailableQuantityProducts = products.stream()
+                .filter(product -> product.getAvailableQuantity() < productRequestedQuantityMap.get(product.getId()))
+                .map(Product::getName)
+                .collect(Collectors.joining(" and "));
+
+        if (!ObjectUtils.isEmpty(notAvailableQuantityProducts)) {
+            throw new InvalidInputException(ERROR_PRODUCT_QUANTITY_NOT_AVAILABLE + notAvailableQuantityProducts);
+        }
     }
 
 }

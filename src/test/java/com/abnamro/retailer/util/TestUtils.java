@@ -23,6 +23,7 @@ public class TestUtils {
                 .name(RandomStringUtils.randomAlphabetic(200))
                 .description(RandomStringUtils.randomAlphabetic(1000))
                 .price(BigDecimal.valueOf(RandomUtils.nextDouble()))
+                .availableQuantity(RandomUtils.nextInt())
                 .build();
     }
 
@@ -64,7 +65,7 @@ public class TestUtils {
     public static OrderProductDTO buildRandomOrderProductDTO(Long productId) {
         return OrderProductDTO.builder()
                 .productId(productId)
-                .quantity(RandomUtils.nextInt())
+                .quantity(1)
                 .build();
     }
 

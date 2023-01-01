@@ -8,6 +8,9 @@ public class ErrorConstants {
     public static final String ERROR_PRICE_NOT_NULL = "Price field must NOT be Empty";
     public static final String ERROR_PRICE_POSITIVE = "Price field must be a number greater that or equals 1";
 
+    public static final String ERROR_AVAILABLE_QUANTITY_NOT_NULL = "Available Quantity field must NOT be Empty";
+    public static final String ERROR_AVAILABLE_QUANTITY_POSITIVE = "Available Quantity field must be a number greater that or equals 1";
+
     public static final String ERROR_CUSTOMER_NAME_NOT_NULL = "Customer Name field must NOT be Null";
     public static final String ERROR_CUSTOMER_NAME_NOT_EMPTY = "Customer Name field must NOT be Empty";
 
@@ -26,6 +29,8 @@ public class ErrorConstants {
     public static final String ERROR_NAME_ALREADY_USED = "Name field already used";
     public static final String ERROR_PRODUCT_IDS_NOT_CORRECT = "Product IDs are not correct";
     public static final String ERROR_PRODUCT_SIZE_NOT_EMPTY = "Products must NOT be empty";
+    public static final String ERROR_PRODUCT_QUANTITY_NOT_AVAILABLE = "Product(s) quantity not available for : ";
+    public static final String ERROR_DATE_FROM_AFTER_TO = "FromDate must be before ToDate";
     public static final String GENERAL_ERROR = "GENERAL ERROR";
 
 }
