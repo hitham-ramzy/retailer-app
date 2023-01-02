@@ -99,8 +99,11 @@ The application has 2 users
 
 ## How to call the endpoints by Swagger
 1 - Click on the Authorize button ![](src/main/resources/static/readme/swagger-1.png)
+
 2 - Add the credentials in the popup ![](src/main/resources/static/readme/swagger-2.png)
+
 3 - Click on Authorize
+
 4 - Call the endpoints
 
 You can also Log out and login with different user
