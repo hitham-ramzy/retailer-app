@@ -7,6 +7,7 @@ import com.abnamro.retailer.mapper.ProductMapper;
 import com.abnamro.retailer.service.ProductService;
 import static com.abnamro.retailer.util.SecurityUtils.ROLE_ADMIN;
 import static com.abnamro.retailer.util.SecurityUtils.ROLE_USER;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,13 @@ public class ProductResource {
      */
     @GetMapping
     @Secured({ROLE_ADMIN, ROLE_USER})
+    @ApiOperation(value = "Get all Products", notes = "Returns all saved Products.\n\n" +
+            "Available for all users.\n\n" +
+            "The combination works among these fields not among the criteria on the same field, So don't use the same field twice with different criteria (like using `name.contains` and `name.equals` at the same time).\n" +
+            "\n" +
+            "Example for a valid Search Criteria -> `name.contains=Iphone&price.greaterThanOrEquals=999.5`\n" +
+            "\n" +
+            "Example for invalid Search Criteria -> `name.contains=Iphone&name.notEquals=macbook`")
     public ResponseEntity<List<Product>> getAll(ProductCriteria productCriteria) {
         List<Product> products = productService.findAll(productCriteria);
         return ResponseEntity.ok(products);
@@ -59,6 +67,8 @@ public class ProductResource {
      */
     @GetMapping("/{id}")
     @Secured({ROLE_ADMIN, ROLE_USER})
+    @ApiOperation(value = "Get one product by ID", notes = "Returns one saved Order.\n\n" +
+            "Available for all users")
     public ResponseEntity<Product> getOneById(@PathVariable Long id) {
         Product product = productService.findById(id);
         if (product == null) {
@@ -75,6 +85,8 @@ public class ProductResource {
      */
     @PostMapping
     @Secured({ROLE_ADMIN})
+    @ApiOperation(value = "Create Product", notes = "Returns the created Product.\n\n" +
+            "Available for admins only")
     public ResponseEntity<Product> create(@RequestBody @Valid ProductDTO productDTO) {
         Product product = ProductMapper.INSTANCE.mapDtoToProduct(productDTO);
         Product savedProduct = productService.save(product);

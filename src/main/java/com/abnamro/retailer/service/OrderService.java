@@ -26,9 +26,12 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
+    private final NotificationService notificationService;
+
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, NotificationService notificationService) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.notificationService = notificationService;
     }
 
     public List<Order> findAll() {
@@ -60,7 +63,7 @@ public class OrderService {
             productRepository.save(product);
         });
 
-        // TODO :: call twilio to send SMS or Email
+        notificationService.sendOrderCreatedSMS(order.getCustomerPhone(), order.getCustomerName(), order.getId());
         return savedOrder;
     }
 

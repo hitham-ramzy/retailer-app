@@ -5,6 +5,7 @@ import com.abnamro.retailer.entity.dto.OrderDTO;
 import com.abnamro.retailer.service.OrderService;
 import static com.abnamro.retailer.util.SecurityUtils.ROLE_ADMIN;
 import static com.abnamro.retailer.util.SecurityUtils.ROLE_USER;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +43,8 @@ public class OrderResource {
      */
     @GetMapping
     @Secured({ROLE_ADMIN})
+    @ApiOperation(value = "Get all Orders", notes = "Returns all saved Orders.\n\n" +
+            "Available for admins only")
     public ResponseEntity<List<Order>> getAll() {
         List<Order> orders = orderService.findAll();
         return ResponseEntity.ok(orders);
@@ -55,6 +58,8 @@ public class OrderResource {
      */
     @GetMapping("{id}")
     @Secured({ROLE_ADMIN})
+    @ApiOperation(value = "Get one Order", notes = "Returns one saved Order.\n\n" +
+            "Available for admins only")
     public ResponseEntity<Order> getOneById(@PathVariable Long id) {
         Order order = orderService.findById(id);
         if (order == null) {
@@ -71,6 +76,9 @@ public class OrderResource {
      */
     @PostMapping
     @Secured({ROLE_ADMIN, ROLE_USER})
+    @ApiOperation(value = "Create Order", notes = "Returns the created Order.\n\n" +
+            "Available for all users.\n\n" +
+            "Sample of correct Mobile `+31616786789`")
     public ResponseEntity<Order> create(@RequestBody @Valid OrderDTO orderDTO) {
         Order savedOrder = orderService.save(orderDTO);
         return ResponseEntity.ok(savedOrder);

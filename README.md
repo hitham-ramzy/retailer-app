@@ -53,6 +53,7 @@ This application built using N-Ties. The application depends on Three main layer
 - Integration Test and Parameterized test cases (covers more than 83% of the application, and I'm interested to make it
   100%)
 - Spring Security (Basic Auth)
+- Integration with Twilio by sending SMS to the customer on creating an order
 - Docker
 - Kubernetes
 
@@ -99,8 +100,11 @@ The application has 2 users
 
 ## How to call the endpoints by Swagger
 1 - Click on the Authorize button ![](src/main/resources/static/readme/swagger-1.png)
+
 2 - Add the credentials in the popup ![](src/main/resources/static/readme/swagger-2.png)
+
 3 - Click on Authorize
+
 4 - Call the endpoints
 
 You can also Log out and login with different user
