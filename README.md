@@ -37,7 +37,7 @@ This application built using N-Ties. The application depends on Three main layer
 
 ## Used Technologies and Frameworks:
 - Spring Boot
-- Spring Specifications for searching for Recipes
+- Spring Specifications for searching for Products by different criteria
 - Swagger UI
 - Mysql Database
 - H2 Database on local environment

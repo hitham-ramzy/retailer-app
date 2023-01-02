@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: retailer-app-service
   labels:
-    app: recipe-app
+    app: retailer-app
     type: service
 spec:
   type: NodePort
