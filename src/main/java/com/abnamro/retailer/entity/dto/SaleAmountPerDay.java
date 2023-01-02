@@ -1,4 +1,4 @@
-package com.abnamro.retailer.entity;
+package com.abnamro.retailer.entity.dto;
 
 import static com.abnamro.retailer.util.ApplicationUtils.buildAndFormatDate;
 import lombok.AllArgsConstructor;

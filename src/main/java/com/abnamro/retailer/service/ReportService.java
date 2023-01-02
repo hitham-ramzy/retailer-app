@@ -2,7 +2,7 @@ package com.abnamro.retailer.service;
 
 import com.abnamro.retailer.entity.Order;
 import com.abnamro.retailer.entity.Product;
-import com.abnamro.retailer.entity.SaleAmountPerDay;
+import com.abnamro.retailer.entity.dto.SaleAmountPerDay;
 import com.abnamro.retailer.exception.InvalidInputException;
 import com.abnamro.retailer.repository.OrderProductRepository;
 import com.abnamro.retailer.util.ErrorConstants;

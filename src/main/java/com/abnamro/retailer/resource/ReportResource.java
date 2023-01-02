@@ -2,7 +2,7 @@ package com.abnamro.retailer.resource;
 
 import com.abnamro.retailer.entity.Order;
 import com.abnamro.retailer.entity.Product;
-import com.abnamro.retailer.entity.SaleAmountPerDay;
+import com.abnamro.retailer.entity.dto.SaleAmountPerDay;
 import com.abnamro.retailer.entity.dto.ReportProductDTO;
 import com.abnamro.retailer.mapper.ProductMapper;
 import com.abnamro.retailer.service.ReportService;
