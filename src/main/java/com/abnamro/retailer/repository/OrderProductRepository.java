@@ -1,13 +1,12 @@
 package com.abnamro.retailer.repository;
 
 import com.abnamro.retailer.entity.Product;
-import com.abnamro.retailer.entity.SaleAmountPerDay;
+import com.abnamro.retailer.entity.dto.SaleAmountPerDay;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Repository

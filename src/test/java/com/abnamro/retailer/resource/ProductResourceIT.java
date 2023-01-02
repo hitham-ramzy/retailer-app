@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -20,15 +21,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
-class ProductResourceIT {
+@WithMockUser(value = "admin", roles = {"ADMIN", "USER"})
+public class ProductResourceIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -64,14 +64,14 @@ class ProductResourceIT {
     @Test
     public void getAllProducts() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
-                        get("/api/products")
+                        get("/api/products?name.contains=Apple")
                                 .contentType("application/json")
                 )
                 .andExpect(status().isOk()).andReturn();
         String json = mvcResult.getResponse().getContentAsString();
         List<Product> products = new ObjectMapper().readValue(json, List.class);
         List<Product> productFromDB = productRepository.findAll();
-        assertEquals(products.size(), productFromDB.size());
+        assertEquals(products.size(), productFromDB.stream().filter(product -> product.getName().contains("Apple")).count());
     }
 
     @Test
